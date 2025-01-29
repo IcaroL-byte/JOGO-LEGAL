@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
   public float focaPulo = 10f;
 
     public bool noChao = false;
-  
+    private Animator anim;
 
   private Rigidbody2D _rigidbody2D;
   private SpriteRenderer  spriteRenderer; 
@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     {
         _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        anim = gameObject.GetComponent<Animator>();
     }
 
 
@@ -40,32 +41,52 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
       if(Input.GetKey(KeyCode.LeftArrow))
       {
         gameObject.transform.position += new Vector3(-velocidade*Time.deltaTime,0,0);
         //rigidbody2D.AddForce(new Vector2(-velocidade,0));
         spriteRenderer.flipX = true;
         Debug.Log("LeftArrow");
+
+
+            if (noChao)
+            {
+                anim.SetBool("Walk", true);
+            }
+
       }
+
         
 
-      if(Input.GetKey(KeyCode.RightArrow))
+      if (Input.GetKey(KeyCode.RightArrow))
       {
         gameObject.transform.position += new Vector3(velocidade*Time.deltaTime,0,0);
         //rigidbody2D.AddForce(new Vector2(velocidade,0));
          spriteRenderer.flipX = false;
          Debug.Log("RightArrow");
+      
+        if(noChao)
+        {
+                anim.SetBool("Walk", true);
+        }  
+      
       }
+
+      
 
         if (Input.GetKeyDown(KeyCode.Space) && noChao == true)
         {
             _rigidbody2D.AddForce(new Vector2(0, 1) * focaPulo,ForceMode2D.Impulse);
-
+            anim.SetTrigger("jump");
             Debug.Log("Jump");
         }
 
-     
-
+        
 
     }
+
+    
+
+
 }
