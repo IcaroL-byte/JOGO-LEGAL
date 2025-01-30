@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
   private Rigidbody2D _rigidbody2D;
   private SpriteRenderer  spriteRenderer; 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,8 +43,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-      if(Input.GetKey(KeyCode.LeftArrow))
+        anim.SetBool("Jump", !noChao);
+        
+
+        if (Input.GetKey(KeyCode.LeftArrow))
       {
         gameObject.transform.position += new Vector3(-velocidade*Time.deltaTime,0,0);
         //rigidbody2D.AddForce(new Vector2(-velocidade,0));
@@ -50,10 +54,7 @@ public class Player : MonoBehaviour
         Debug.Log("LeftArrow");
 
 
-            if (noChao)
-            {
-                anim.SetBool("Walk", true);
-            }
+            
 
       }
 
@@ -66,10 +67,6 @@ public class Player : MonoBehaviour
          spriteRenderer.flipX = false;
          Debug.Log("RightArrow");
       
-        if(noChao)
-        {
-                anim.SetBool("Walk", true);
-        }  
       
       }
 
@@ -78,7 +75,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && noChao == true)
         {
             _rigidbody2D.AddForce(new Vector2(0, 1) * focaPulo,ForceMode2D.Impulse);
-            anim.SetTrigger("jump");
             Debug.Log("Jump");
         }
 

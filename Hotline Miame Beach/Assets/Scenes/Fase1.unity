@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidade: 10
-  focaPulo: 10
+  focaPulo: 8
   noChao: 0
 --- !u!61 &1862398530
 BoxCollider2D:
