@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         anim.SetBool("Jump", !noChao);
-        
+        AnimaçãoWalk();
 
         if (Input.GetKey(KeyCode.LeftArrow))
       {
@@ -82,7 +82,17 @@ public class Player : MonoBehaviour
 
     }
 
-    
+    void AnimaçãoWalk()
+    {
+        if((Input.GetKeyDown(KeyCode.LeftArrow) || (Input.GetKeyDown(KeyCode.LeftArrow))) && noChao == true) 
+        {
+            anim.SetBool("Walk", true);
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+        }
+    }
 
 
 }
