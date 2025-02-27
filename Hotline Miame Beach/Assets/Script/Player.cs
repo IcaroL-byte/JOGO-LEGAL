@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-  public float velocidade = 10f;
-  public float focaPulo = 10f;
+  
+    public float velocidade = 10f;
+    public float focaPulo = 10f;
 
     public bool noChao = false;
-    private Animator anim;
 
-  private Rigidbody2D _rigidbody2D;
-  private SpriteRenderer  spriteRenderer; 
+    public bool andando = false;
 
-
+    private Rigidbody2D _rigidbody2D;
+    private SpriteRenderer  _spriteRenderer;
+    private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        anim = gameObject.GetComponent<Animator>();
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _animator = gameObject.GetComponent<Animator>();
     }
 
 
-   void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "chao")
         {
@@ -43,56 +44,46 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetBool("Jump", !noChao);
-        AnimaçãoWalk();
+        andando = false;
+        
+        _animator.SetBool("Jump", !noChao);
+        
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            gameObject.transform.position += new Vector3(-velocidade*Time.deltaTime,0,0);
+            //rigidbody2D.AddForce(new Vector2(-velocidade,0));
+            _spriteRenderer.flipX = true;
+            Debug.Log("LeftArrow");
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-      {
-        gameObject.transform.position += new Vector3(-velocidade*Time.deltaTime,0,0);
-        //rigidbody2D.AddForce(new Vector2(-velocidade,0));
-        spriteRenderer.flipX = true;
-        Debug.Log("LeftArrow");
-
-
-            
-
-      }
-
+            if (noChao == true)
+            {
+                andando = true;
+            }
+        }
         
 
-      if (Input.GetKey(KeyCode.RightArrow))
-      {
-        gameObject.transform.position += new Vector3(velocidade*Time.deltaTime,0,0);
-        //rigidbody2D.AddForce(new Vector2(velocidade,0));
-         spriteRenderer.flipX = false;
-         Debug.Log("RightArrow");
-      
-      
-      }
-
-      
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            gameObject.transform.position += new Vector3(velocidade*Time.deltaTime,0,0);
+            //rigidbody2D.AddForce(new Vector2(velocidade,0));
+            _spriteRenderer.flipX = false;
+            Debug.Log("RightArrow");
+         
+            if (noChao == true)
+            {
+                andando = true;
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && noChao == true)
         {
             _rigidbody2D.AddForce(new Vector2(0, 1) * focaPulo,ForceMode2D.Impulse);
+
             Debug.Log("Jump");
         }
 
+        _animator.SetBool("Walk",andando);
         
-
+     
     }
-
-    void AnimaçãoWalk()
-    {
-        if((Input.GetKeyDown(KeyCode.LeftArrow) || (Input.GetKeyDown(KeyCode.LeftArrow))) && noChao == true) 
-        {
-            anim.SetBool("Walk", true);
-        }
-        else
-        {
-            anim.SetBool("Walk", false);
-        }
-    }
-
-
 }
